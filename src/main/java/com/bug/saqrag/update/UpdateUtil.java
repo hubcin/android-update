@@ -158,6 +158,7 @@ public class UpdateUtil {
         intent.putExtra(UPDATE_ICON, sourceIcon);
         intent.putExtra(UPDATE_IS_BACKGROUND, isDownBackground);
         intent.putExtra(UPDATE_AUTO_ISTALL, isAutoInstall);
+        Log.e("jjj", "update: " + DownUpdateService.isRunning);
         if (!DownUpdateService.isRunning) {
             context.startService(intent);
         }
