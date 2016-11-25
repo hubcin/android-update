@@ -49,11 +49,14 @@ public class DownUpdateService extends IntentService {
 
         downLength = sPre.getLong(UpdateUtil.SHARE_UPDATE_DOWNLENGTH, 0);
         fileLength = sPre.getLong(UpdateUtil.SHARE_UPDATE_FILELENGTH, 0);
-        if (TextUtils.isEmpty(url))
-            return;
 
+        if (TextUtils.isEmpty(url)) {
+            isRunning = false;
+            return;
+        }
         if (TextUtils.isEmpty(updatePath)) {
             sendBroadcast(new Intent(UpdateUtil.DOWNLOAD_ACTION_NO_SD_CARD));
+            isRunning = false;
             return;
         }
 
@@ -72,7 +75,6 @@ public class DownUpdateService extends IntentService {
         }
 
         download(url, sourceIcon, isAutoInstall);
-
     }
 
     private void download(String updateUrl, int resourceIcon, boolean isAutoIstall) {

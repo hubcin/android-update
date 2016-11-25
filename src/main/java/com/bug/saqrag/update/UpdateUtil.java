@@ -188,9 +188,8 @@ public class UpdateUtil {
     public static String getFileName(String downloadUrl) {
         if (TextUtils.isEmpty(downloadUrl))
             return "";
-        String filename = downloadUrl.substring(downloadUrl
+        return downloadUrl.substring(downloadUrl
                 .lastIndexOf('/') + 1);
-        return filename;
     }
 
     public static String getDownPath(String downloadUrl) {
@@ -203,11 +202,9 @@ public class UpdateUtil {
         }
 
         File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-
         if (file.isDirectory() && file.canWrite()) {
             Log.e("storage1: ", file.getAbsolutePath());
             path = file.getAbsolutePath();
-
             String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
             File testWritable = new File(path, "test_" + timeStamp);
 
