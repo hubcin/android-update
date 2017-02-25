@@ -16,7 +16,7 @@ import java.net.URL;
 
 public class DownUpdateService extends IntentService {
 
-    private MyNotification myNotification;
+    private UpdateNotification myNotification;
     private SharedPreferences sPre;
     private long downLength;
     private long fileLength;
@@ -44,6 +44,7 @@ public class DownUpdateService extends IntentService {
         boolean isAutoInstall = intent.getBooleanExtra(UpdateUtil.UPDATE_AUTO_ISTALL, false);
         url = intent.getStringExtra(UpdateUtil.UPDATE_URI);
         int sourceIcon = intent.getIntExtra(UpdateUtil.UPDATE_ICON, R.drawable.launcher);
+        int smallIcon = intent.getIntExtra(UpdateUtil.UPDATE_SMALL_ICON, R.drawable.launcher);
         updatePath = intent.getStringExtra(UpdateUtil.UPDATE_PATH);
         isDownloadBack = intent.getBooleanExtra(UpdateUtil.UPDATE_IS_BACKGROUND, false);
 
@@ -74,14 +75,14 @@ public class DownUpdateService extends IntentService {
             edit.apply();
         }
 
-        download(url, sourceIcon, isAutoInstall);
+        download(url, sourceIcon, smallIcon, isAutoInstall);
     }
 
-    private void download(String updateUrl, int resourceIcon, boolean isAutoIstall) {
+    private void download(String updateUrl, int resourceIcon, int smallIcon, boolean isAutoIstall) {
 //        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 
 
-        startNotification(resourceIcon);
+        startNotification(resourceIcon, smallIcon);
 
 
         InputStream input = null;
@@ -151,10 +152,10 @@ public class DownUpdateService extends IntentService {
         }
     }
 
-    private void startNotification(int resourceIcon) {
+    private void startNotification(int resourceIcon, int smallIcon) {
         if (!isDownloadBack) {
-            myNotification = new MyNotification(this, 0);
-            myNotification.showCustomizeNotification(resourceIcon, "准备下载", R.layout.notify_download);
+            myNotification = new UpdateNotification(this, 0);
+            myNotification.showCustomizeNotification(resourceIcon, smallIcon);
         }
         new Thread() {
             @Override

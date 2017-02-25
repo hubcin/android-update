@@ -22,6 +22,7 @@ public class UpdateUtil {
     public static final String UPDATE_ICON = "resourceIcon";
     public static final String UPDATE_AUTO_ISTALL = "autoInstall";
     public static final String UPDATE_PATH = "updatePath";
+    public static final String UPDATE_SMALL_ICON = "JJJJJJKDLSLKFJSL";
     public static final String UPDATE_IS_BACKGROUND = "UPDATE_IS_BACKGROUND";
 
 
@@ -93,7 +94,7 @@ public class UpdateUtil {
      * @param downUrl
      */
     public static void update(Context context, String downUrl) {
-        update(context, downUrl, true, BACKGROUND, false);
+        update(context, downUrl, true, BACKGROUND, BACKGROUND, false);
     }
 
     /**
@@ -104,7 +105,7 @@ public class UpdateUtil {
      * @param isAutoInstall 下载完成是否要自动安装，如果是false,则需要Update.install(Context c)方法来完成安装
      */
     public static void update(Context context, String downUrl, boolean isAutoInstall) {
-        update(context, downUrl, true, BACKGROUND, isAutoInstall);
+        update(context, downUrl, true, BACKGROUND, BACKGROUND, isAutoInstall);
     }
 
 
@@ -117,8 +118,8 @@ public class UpdateUtil {
      * @param sourceIcon       如果在前台下载app，通知栏需要一张显示的图标
      */
     public static void update(Context context, String downUrl, boolean isDownBackground,
-                              int sourceIcon) {
-        update(context, downUrl, isDownBackground, sourceIcon, false);
+                              int sourceIcon, int smallIcon) {
+        update(context, downUrl, isDownBackground, sourceIcon, smallIcon, false);
     }
 
     /**
@@ -131,7 +132,7 @@ public class UpdateUtil {
      * @param isAutoInstall    下载完成是否要自动安装，如果是false,则需要Update.install(Context c)方法来完成安装
      */
     public static void update(Context context, String downUrl, boolean isDownBackground,
-                              int sourceIcon, boolean isAutoInstall) {
+                              int sourceIcon, int smallIcon, boolean isAutoInstall) {
         if (context == null) {
             return;
         }
@@ -156,9 +157,9 @@ public class UpdateUtil {
         intent.putExtra(UPDATE_URI, downUrl);
         intent.putExtra(UPDATE_PATH, filePath);
         intent.putExtra(UPDATE_ICON, sourceIcon);
+        intent.putExtra(UPDATE_SMALL_ICON, smallIcon);
         intent.putExtra(UPDATE_IS_BACKGROUND, isDownBackground);
         intent.putExtra(UPDATE_AUTO_ISTALL, isAutoInstall);
-        Log.e("jjj", "update: " + DownUpdateService.isRunning);
         if (!DownUpdateService.isRunning) {
             context.startService(intent);
         }
