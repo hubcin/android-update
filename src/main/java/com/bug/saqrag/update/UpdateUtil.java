@@ -15,9 +15,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+/**
+ * saqrag
+ */
 public class UpdateUtil {
-
     public static final String UPDATE_URI = "URI";
     public static final String UPDATE_ICON = "resourceIcon";
     public static final String UPDATE_AUTO_ISTALL = "autoInstall";
