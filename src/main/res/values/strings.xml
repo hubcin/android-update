@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">update</string>
-    <string name="download_now">Download Now</string>
+    <string name="downloading">Download Now</string>
 </resources>
