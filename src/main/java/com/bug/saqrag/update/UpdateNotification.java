@@ -24,7 +24,7 @@ class UpdateNotification {
         builder = new NotificationCompat.Builder(mContext)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icoId < 1 ? R.drawable.launcher : icoId))
                 .setSmallIcon(smallIconId < 1 ? R.drawable.launcher : smallIconId)
-                .setContentTitle(mContext.getString(R.string.download_now))
+                .setContentTitle(mContext.getString(R.string.update_downloading))
                 .setContentText(String.valueOf(0) + "%")
                 .setProgress(100, 0, false);
         mNm.notify(mId, builder.build());
