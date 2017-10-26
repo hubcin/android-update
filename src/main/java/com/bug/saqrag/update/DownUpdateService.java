@@ -179,11 +179,20 @@ public class DownUpdateService extends IntentService {
                 }
                 if (myNotification != null) {
                     myNotification.removeNotification();
+                    myNotification = null;
                 }
             }
         }.start();
     }
 
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        if (myNotification != null) {
+            myNotification.removeNotification();
+            myNotification = null;
+        }
+        super.onTaskRemoved(rootIntent);
+    }
 
     @Override
     public void onDestroy() {
@@ -191,5 +200,9 @@ public class DownUpdateService extends IntentService {
         //保存已下载长度
         isNotify = false;
         sPre.edit().putLong(UpdateUtil.SHARE_UPDATE_DOWNLENGTH, downLength).apply();
+        if (myNotification != null) {
+            myNotification.removeNotification();
+            myNotification = null;
+        }
     }
 }
