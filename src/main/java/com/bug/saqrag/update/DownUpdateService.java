@@ -113,10 +113,10 @@ public class DownUpdateService extends IntentService {
             output = new RandomAccessFile(updatePath, "rwd");
             // 定位到pos位置
             output.seek(downLength);
-            byte data[] = new byte[1024];
+            byte data[] = new byte[1024 * 1024];
             int count;
 
-            while ((count = input.read(data, 0, 1024)) != -1) {
+            while ((count = input.read(data, 0, 1024 * 1024)) != -1) {
                 // publishing the progress....
                 output.write(data, 0, count);
                 downLength += count;
