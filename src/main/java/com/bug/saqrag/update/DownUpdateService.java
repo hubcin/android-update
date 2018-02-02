@@ -26,6 +26,9 @@ public class DownUpdateService extends IntentService {
     private boolean isDownloadBack;
     private String url;
     public static boolean isRunning = false;
+    private boolean isAutoInstall;
+    private int sourceIcon;
+    private int smallIcon;
 
 
     /**
@@ -35,17 +38,20 @@ public class DownUpdateService extends IntentService {
         super("DownUpdateService");
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
 
     @Override
     protected void onHandleIntent(Intent intent) {
         isRunning = true;
         sPre = getSharedPreferences(UpdateUtil.SHARE_NAME, MODE_PRIVATE);
 
-        boolean isAutoInstall = intent.getBooleanExtra(UpdateUtil.UPDATE_AUTO_ISTALL, false);
+        isAutoInstall = intent.getBooleanExtra(UpdateUtil.UPDATE_AUTO_ISTALL, false);
         url = intent.getStringExtra(UpdateUtil.UPDATE_URI);
-        int sourceIcon = intent.getIntExtra(UpdateUtil.UPDATE_ICON, R.drawable.launcher);
-        int smallIcon = intent.getIntExtra(UpdateUtil.UPDATE_SMALL_ICON, R.drawable.launcher);
-        String channelId = intent.getStringExtra(UpdateUtil.UPDATE_NOTIFICATION_CHANNEL_ID);
+        sourceIcon = intent.getIntExtra(UpdateUtil.UPDATE_ICON, R.drawable.launcher);
+        smallIcon = intent.getIntExtra(UpdateUtil.UPDATE_SMALL_ICON, R.drawable.launcher);
         updatePath = intent.getStringExtra(UpdateUtil.UPDATE_PATH);
         isDownloadBack = intent.getBooleanExtra(UpdateUtil.UPDATE_IS_BACKGROUND, false);
 
@@ -76,14 +82,14 @@ public class DownUpdateService extends IntentService {
             edit.apply();
         }
 
-        download(url, sourceIcon, smallIcon, isAutoInstall, channelId);
+        download(url);
     }
 
-    private void download(String updateUrl, int resourceIcon, int smallIcon, boolean isAutoIstall, String channelId) {
+    private void download(String updateUrl) {
 //        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 
 
-        startNotification(resourceIcon, smallIcon, channelId);
+        startNotification();
 
 
         InputStream input = null;
@@ -128,7 +134,7 @@ public class DownUpdateService extends IntentService {
             input.close();
             isNotify = false;
             sPre.edit().putLong(UpdateUtil.SHARE_UPDATE_DOWNLENGTH, 0).apply();
-            if (isAutoIstall) {
+            if (isAutoInstall) {
                 UpdateUtil.install(this, url);
             } else {
                 sendBroadcast(new Intent(UpdateUtil.DOWNLOAD_ACTION_COMPLETE));
@@ -153,10 +159,10 @@ public class DownUpdateService extends IntentService {
         }
     }
 
-    private void startNotification(int resourceIcon, int smallIcon, String channelId) {
+    private void startNotification() {
         if (!isDownloadBack) {
             myNotification = new UpdateNotification(this, 0);
-            myNotification.showCustomizeNotification(resourceIcon, smallIcon, channelId);
+            myNotification.showCustomizeNotification(sourceIcon, smallIcon);
         }
         new Thread() {
             @Override

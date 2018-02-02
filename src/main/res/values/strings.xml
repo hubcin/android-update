@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">update</string>
     <string name="update_downloading">Downloading</string>
+    <string name="channel_description_update">download update pack</string>
 </resources>
