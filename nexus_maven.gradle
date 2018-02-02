@@ -44,7 +44,7 @@ uploadArchives {
             }
             pom.project {
                 name 'update'
-                version '1.0.4-SNAPSHOT'
+                version '1.0.5'
                 artifactId 'update'
                 groupId 'com.zuga'
                 packaging 'aar'
