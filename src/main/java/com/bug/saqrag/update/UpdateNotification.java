@@ -19,13 +19,16 @@ class UpdateNotification {
     }
 
 
-    void showCustomizeNotification(int icoId, int smallIconId) {
+    void showCustomizeNotification(int icoId, int smallIconId, String channelId) {
         if (mContext == null) return;
-        builder = new NotificationCompat.Builder(mContext)
+        builder = new NotificationCompat.Builder(mContext, channelId)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icoId < 1 ? R.drawable.launcher : icoId))
                 .setSmallIcon(smallIconId < 1 ? R.drawable.launcher : smallIconId)
                 .setContentTitle(mContext.getString(R.string.update_downloading))
                 .setContentText(String.valueOf(0) + "%")
+                .setWhen(System.currentTimeMillis())
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setShowWhen(true)
                 .setProgress(100, 0, false);
         mNm.notify(mId, builder.build());
     }

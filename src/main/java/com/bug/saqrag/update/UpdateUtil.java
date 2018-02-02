@@ -25,6 +25,7 @@ public class UpdateUtil {
     public static final String UPDATE_PATH = "updatePath";
     public static final String UPDATE_SMALL_ICON = "JJJJJJKDLSLKFJSL";
     public static final String UPDATE_IS_BACKGROUND = "UPDATE_IS_BACKGROUND";
+    public static final String UPDATE_NOTIFICATION_CHANNEL_ID = "UPDATE_NOTIFICATION_CHANNEL_ID";
 
 
     /**
@@ -90,50 +91,44 @@ public class UpdateUtil {
 
     /**
      * 后台下载app,不自动安装app,要Update.install(Context c)方法来完成安装。当下载完成或失败时发出广播，广播Action为静态变量：DOWNLOAD_ACTION_COMPLETE = "DOWNLOAD_ACTION_COMPLETE"，DOWNLOAD_ACTION_FIAL = "DOWNLOAD_ACTION_FIAL"，DOWNLOAD_ACTION_NO_SD_CARD = "NO_SD_CARD";
-     *
-     * @param context
-     * @param downUrl
      */
-    public static void update(Context context, String downUrl) {
-        update(context, downUrl, true, BACKGROUND, BACKGROUND, false);
+    public static void update(Context context, String downUrl, String channelId) {
+        update(context, downUrl, true, BACKGROUND, BACKGROUND, false, channelId);
     }
 
     /**
      * 后台下载app。当下载完成或失败时发出广播，广播Action为静态变量：DOWNLOAD_ACTION_COMPLETE = "DOWNLOAD_ACTION_COMPLETE"，DOWNLOAD_ACTION_FIAL = "DOWNLOAD_ACTION_FIAL"，DOWNLOAD_ACTION_NO_SD_CARD = "NO_SD_CARD";
      *
-     * @param context
      * @param downUrl       app下载的地址
      * @param isAutoInstall 下载完成是否要自动安装，如果是false,则需要Update.install(Context c)方法来完成安装
      */
-    public static void update(Context context, String downUrl, boolean isAutoInstall) {
-        update(context, downUrl, true, BACKGROUND, BACKGROUND, isAutoInstall);
+    public static void update(Context context, String downUrl, boolean isAutoInstall, String channelId) {
+        update(context, downUrl, true, BACKGROUND, BACKGROUND, isAutoInstall, channelId);
     }
 
 
     /**
      * 下载app,不自动安装app。当下载完成或失败时发出广播，广播Action为静态变量：DOWNLOAD_ACTION_COMPLETE = "DOWNLOAD_ACTION_COMPLETE"，DOWNLOAD_ACTION_FIAL = "DOWNLOAD_ACTION_FIAL"，DOWNLOAD_ACTION_NO_SD_CARD = "NO_SD_CARD";
      *
-     * @param context
      * @param downUrl          app下载的地址
      * @param isDownBackground 是否后台下载，true后台下载
      * @param sourceIcon       如果在前台下载app，通知栏需要一张显示的图标
      */
     public static void update(Context context, String downUrl, boolean isDownBackground,
-                              int sourceIcon, int smallIcon) {
-        update(context, downUrl, isDownBackground, sourceIcon, smallIcon, false);
+                              int sourceIcon, int smallIcon, String channelId) {
+        update(context, downUrl, isDownBackground, sourceIcon, smallIcon, false, channelId);
     }
 
     /**
      * 下载app,当下载完成或失败时发出广播，广播Action为静态变量：DOWNLOAD_ACTION_COMPLETE = "DOWNLOAD_ACTION_COMPLETE"，DOWNLOAD_ACTION_FIAL = "DOWNLOAD_ACTION_FIAL"，DOWNLOAD_ACTION_NO_SD_CARD = "NO_SD_CARD";
      *
-     * @param context
      * @param downUrl          app下载的地址
      * @param isDownBackground 是否后台下载，true后台下载
      * @param sourceIcon       如果在前台下载app，通知栏需要一张显示的图标
      * @param isAutoInstall    下载完成是否要自动安装，如果是false,则需要Update.install(Context c)方法来完成安装
      */
     public static void update(Context context, String downUrl, boolean isDownBackground,
-                              int sourceIcon, int smallIcon, boolean isAutoInstall) {
+                              int sourceIcon, int smallIcon, boolean isAutoInstall, String channelId) {
         if (context == null) {
             return;
         }
@@ -161,6 +156,7 @@ public class UpdateUtil {
         intent.putExtra(UPDATE_SMALL_ICON, smallIcon);
         intent.putExtra(UPDATE_IS_BACKGROUND, isDownBackground);
         intent.putExtra(UPDATE_AUTO_ISTALL, isAutoInstall);
+        intent.putExtra(UPDATE_NOTIFICATION_CHANNEL_ID, channelId);
         if (!DownUpdateService.isRunning) {
             context.startService(intent);
         }
